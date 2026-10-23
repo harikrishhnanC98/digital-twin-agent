@@ -1,6 +1,6 @@
 # Digital Twin Q&A Agent
 
-A local-first AI agent that lets factory engineers ask questions in natural language about their equipment, maintenance history, and technical documentation — grounded in real factory data, with no data leaving the plant network.
+A local-first AI agent that lets factory engineers ask questions in natural language about their equipment, maintenance history, and technical documentation - grounded in real factory data, with no data leaving the plant network.
 
 Built as a design and implementation exercise for a smart factory context.
 
@@ -12,7 +12,7 @@ Built as a design and implementation exercise for a smart factory context.
 - Retrieves **live sensor data** and **maintenance history** from the digital twin
 - Generates answers using a **local LLM via Ollama** (phi3:mini by default)
 - Every answer cites its **source document or data stream**
-- Runs entirely **on-premise** — no cloud APIs, no data leaves the factory network
+- Runs entirely **on-premise** - no cloud APIs, no data leaves the factory network
 
 ## Example questions
 
