@@ -1,0 +1,48 @@
+CONVEYOR SYSTEM A3 — TECHNICAL MANUAL
+Version 2.4 | SmartFactory Smart Factory Reference
+
+1. OVERVIEW
+Conveyor A3 is a high-speed belt conveyor used in the body-in-white (BIW) assembly line.
+It transports car body frames between welding station W7 and the quality inspection gate Q2.
+Design throughput: 240 units/hour. Belt width: 1200mm. Drive motor: 7.5 kW SEW Eurodrive.
+
+2. OPERATING PARAMETERS
+- Normal belt speed: 0.8 m/s
+- Maximum belt speed: 1.2 m/s
+- Operating temperature range: 15°C to 40°C
+- Motor temperature alarm threshold: 90°C
+- Vibration alarm threshold: 3.0 mm/s (RMS)
+
+3. MAINTENANCE SCHEDULE
+- Daily: Visual inspection of belt surface and edge guides
+- Weekly: Lubrication of drive chain and tensioner bearings
+- Monthly: Belt tension check (target: 350 N), roller bearing inspection
+- Quarterly: Full drive unit inspection, belt wear measurement (replace at >70% wear)
+- Annual: Complete overhaul including motor service and gearbox oil change
+
+4. FAULT CODES
+- F01: Belt misalignment detected. Check edge guides. Re-align belt if needed.
+- F02: Drive motor overtemperature. Reduce throughput and allow cooling.
+- F03: Encoder signal lost. Check encoder cable connection at terminal box TB-A3.
+- F04: Emergency stop triggered. Inspect for obstruction before restart.
+- F05: Belt slip detected. Check belt tension. Adjust tensioner to 350 N.
+
+5. SAFETY PROCEDURES
+Before any maintenance work on Conveyor A3:
+- Press the red EMERGENCY STOP button at control panel CP-A3.
+- Lock the motor starter at MCC panel MCC-03 using a personal safety lock.
+- Hang a "DO NOT OPERATE" tag on the control panel.
+- Wait at least 60 seconds for belt to fully stop before entering the guard area.
+Failure to follow lockout/tagout (LOTO) procedures is a serious safety violation.
+
+6. DIGITAL TWIN INTEGRATION
+Conveyor A3 is fully integrated into the factory digital twin.
+Real-time data streams available:
+- belt_speed (m/s), updated every 500ms
+- motor_temperature (°C), updated every 1s
+- vibration_rms (mm/s), updated every 2s
+- throughput_count (units/hour), updated every 60s
+- belt_wear_percent (%), updated from quarterly inspection logs
+
+The digital twin model ID for Conveyor A3 is: DT-CONV-A3-BIW
+Access via the SmartFactory DT API: GET /api/twins/DT-CONV-A3-BIW/telemetry

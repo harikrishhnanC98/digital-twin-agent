@@ -1,0 +1,42 @@
+ROBOT ARM 7 — TECHNICAL SPECIFICATION
+Model: KUKA KR 210 R2700 | Installation: Welding Station W7
+
+1. SPECIFICATIONS
+- Payload: 210 kg
+- Reach: 2700 mm
+- Degrees of freedom: 6
+- Repeatability: ±0.06 mm
+- IP Rating: IP65 (dust and water resistant)
+- Control system: KUKA KR C4
+
+2. TYPICAL CYCLE
+Robot Arm 7 performs spot-welding on car body B-pillar joints.
+Standard cycle: pick frame → position → 18 welds → release → return home
+Nominal cycle time: 4.8 seconds per body unit.
+Alert if cycle time exceeds 6.0 seconds (indicates joint wear or calibration drift).
+
+3. MAINTENANCE SCHEDULE
+- Daily: Check for weld spatter on joints and cables; clean if needed
+- Monthly: Joint lubrication (use KUKA Spezialfett grease only)
+- Quarterly: Axis calibration and mastering using KUKA EMT tool
+- Annual: Full inspection of all cable harnesses and connectors; gearbox oil change (axes 1–3)
+
+4. WELD QUALITY PARAMETERS
+Each weld is monitored by the weld controller (Bosch PSI 6300).
+Acceptable weld quality: nugget diameter > 5.5 mm, indentation < 30%.
+If weld quality falls below threshold, robot enters hold state and alerts the quality team.
+
+5. DIGITAL TWIN INTEGRATION
+Digital twin model ID: DT-ROBOT-7-W7
+Real-time telemetry:
+- joint_temperatures[1..6] (°C)
+- cycle_time (s)
+- weld_count (cumulative)
+- error_code (last fault)
+- position_accuracy (mm, from last calibration)
+
+6. COMMON FAULTS AND RESOLUTIONS
+- Fault A1 (Path deviation > 0.5mm): Run axis mastering procedure. Check for mechanical collision damage.
+- Fault B2 (Weld controller timeout): Check network connection between KR C4 and PSI 6300.
+- Fault C3 (Joint temperature high): Reduce cycle rate by 20%. Check cooling fan on axis 1.
+- Fault D4 (Teach pendant disconnected): Reconnect pendant. Robot will not operate without confirmed connection.

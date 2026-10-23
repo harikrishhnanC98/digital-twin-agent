@@ -1,0 +1,45 @@
+STEINEKE SMART FACTORY — DIGITAL TWIN OVERVIEW
+Internal Reference Document v1.0
+
+1. WHAT IS A DIGITAL TWIN?
+A digital twin is a virtual representation of a physical asset, process, or system.
+It is continuously updated with real-time data from sensors, PLCs, and production systems.
+Engineers use it to monitor equipment health, simulate scenarios, and predict failures
+without interrupting live production.
+
+2. ARCHITECTURE
+The Steineke digital twin platform consists of:
+- Data Ingestion Layer: MQTT brokers collecting sensor data from 480 OPC-UA endpoints
+- Twin Engine: Asset Administration Shell (AAS) compliant models for each machine
+- Storage: Time-series database (InfluxDB) for sensor history; PostgreSQL for structured metadata
+- API Layer: REST API for querying twin state, telemetry, and historical data
+- Visualization: 3D factory model with real-time overlays (Unity-based)
+- AI Layer: Anomaly detection, predictive maintenance, and Q&A (this system)
+
+3. ASSET HIERARCHY
+Factory
+├── Production Line BIW (Body-in-White)
+│   ├── Conveyor A3 (DT-CONV-A3-BIW)
+│   ├── Welding Station W7
+│   │   └── Robot Arm 7 (DT-ROBOT-7-W7)
+│   └── Quality Gate Q2 (DT-QGT-Q2-BIW)
+└── Production Line Paint
+    └── ...
+
+4. DATA QUALITY AND RELIABILITY
+Sensor data is validated at ingestion using range checks and rate-of-change filters.
+Missing data points are flagged with quality code Q=BAD and excluded from analytics.
+Historical data retention: 5 years for sensor streams, 10 years for maintenance events.
+
+5. SECURITY
+All digital twin data is stored on-premise. No data is transmitted to external cloud services.
+Access control: role-based (Operator / Engineer / Manager / Admin).
+API authentication: OAuth2 with factory Active Directory integration.
+All network communication is encrypted using TLS 1.3.
+
+6. INTEGRATION WITH Q&A AGENT
+The Q&A agent connects to the digital twin via:
+- REST API for live telemetry queries
+- Document knowledge base (this system) for manuals, procedures, and specifications
+- Maintenance log database for service history
+The agent never modifies twin data — it is read-only.
