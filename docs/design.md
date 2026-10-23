@@ -1,4 +1,4 @@
-# Digital Twin Q&A Agent — Software Design Document
+# Digital Twin Q&A Agent - Software Design Document
 
 **Author:** Harikrishnan Changaramkulath  
 **Date:** October 2026  
@@ -14,7 +14,7 @@ Modern smart factories generate enormous volumes of data: sensor streams, mainte
 - *"What is the current vibration level of robot arm 7?"*
 - *"When is the next scheduled maintenance for the welding station?"*
 
-The goal of this project is to build an AI agent that allows factory engineers and operators to ask questions in plain natural language and receive accurate, source-cited answers — grounded in real factory data and documentation, without hallucination.
+The goal of this project is to build an AI agent that allows factory engineers and operators to ask questions in plain natural language and receive accurate, source-cited answers - grounded in real factory data and documentation, without hallucination.
 
 ---
 
@@ -46,7 +46,7 @@ The goal of this project is to build an AI agent that allows factory engineers a
 
 - LLM runs locally via Ollama (no cloud model APIs)
 - Vector index stored on local disk (FAISS)
-- Agent is read-only — it cannot modify digital twin data or trigger machine actions
+- Agent is read-only - it cannot modify digital twin data or trigger machine actions
 
 ---
 
@@ -98,19 +98,19 @@ The goal of this project is to build an AI agent that allows factory engineers a
 ### 3.2 Key Design Decisions
 
 **Why RAG instead of fine-tuning?**  
-Factory documentation changes frequently — new machines are added, procedures are updated, fault codes are revised. A RAG system can be updated by simply adding documents and rebuilding the index. Fine-tuning would require retraining the model for every update, which is impractical in a production environment.
+Factory documentation changes frequently - new machines are added, procedures are updated, fault codes are revised. A RAG system can be updated by simply adding documents and rebuilding the index. Fine-tuning would require retraining the model for every update, which is impractical in a production environment.
 
 **Chunking strategy**  
 Documents are split into 400-character chunks with 80-character overlap. The overlap is intentional: technical specifications often contain measurements or instructions that span sentence boundaries. Without overlap, a split at the wrong point would make a critical fact unretrievable. This strategy was informed by my thesis work on document segmentation, where chunk boundary decisions significantly impacted downstream model performance.
 
 **Why local LLM?**  
-Factory data — maintenance logs, sensor readings, quality reports — is sensitive operational data. Sending it to a cloud API (OpenAI, Anthropic, etc.) creates a data privacy and security risk that is unacceptable in an automotive manufacturing context. Running the LLM locally with Ollama keeps all data within the factory network.
+Factory data - maintenance logs, sensor readings, quality reports - is sensitive operational data. Sending it to a cloud API (OpenAI, Anthropic, etc.) creates a data privacy and security risk that is unacceptable in an automotive manufacturing context. Running the LLM locally with Ollama keeps all data within the factory network.
 
 **Tool-based architecture over monolithic LLM**  
 The agent uses a rule-based query classifier to select which tool(s) to call before invoking the LLM. This is faster and more reliable than having the LLM decide its own tools (ReAct pattern) for a factory setting where predictability matters. The classifier uses keyword matching on the query, making it transparent and debuggable.
 
 **Why Phi-3 Mini?**  
-Phi-3 Mini (3.8B parameters) runs efficiently on a single GPU or CPU with 8GB RAM. In evaluation on factual Q&A tasks it performs comparably to much larger models when the context is well-structured — which it is in our case because we supply it with precise retrieved chunks. Larger models (Mistral-7B, LLaMA3) can be swapped in by changing one config line.
+Phi-3 Mini (3.8B parameters) runs efficiently on a single GPU or CPU with 8GB RAM. In evaluation on factual Q&A tasks it performs comparably to much larger models when the context is well-structured - which it is in our case because we supply it with precise retrieved chunks. Larger models (Mistral-7B, LLaMA3) can be swapped in by changing one config line.
 
 ---
 
@@ -167,6 +167,6 @@ The container exposes port 8501 (Streamlit). In production it would sit behind t
 
 - **ReAct agent loop**: let the LLM decide which tools to call dynamically, enabling multi-step reasoning
 - **Live digital twin API integration**: replace simulated sensor/maintenance data with real API calls
-- **Multilingual support**: factory engineers in German and English — the embedding model already supports both
+- **Multilingual support**: factory engineers in German and English - the embedding model already supports both
 - **Feedback loop**: engineers rate answers; poor ratings trigger re-indexing or prompt refinement
 - **Voice interface**: operators on the shop floor could query hands-free via speech-to-text
