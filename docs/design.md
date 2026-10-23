@@ -87,8 +87,8 @@ The goal of this project is to build an AI agent that allows factory engineers a
 │  Base       │
 │  (.txt,.md) │
 └─────────────┘
-                         │ prompt + context
-                         ▼
+       │ prompt + context
+       ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                    Local LLM (Ollama)                           │
 │                  phi3:mini / mistral:7b                         │
